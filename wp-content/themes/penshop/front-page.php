@@ -1,3 +1,7 @@
-<?php get_header(); ?>
+<?php get_header(); 
 
-<?php get_footer(); ?>
+wp_nav_menu(
+    array('theme_location' => 'primary')
+);
+
+get_footer(); ?>
