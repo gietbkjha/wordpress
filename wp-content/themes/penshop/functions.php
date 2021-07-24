@@ -29,14 +29,6 @@ function penshop_add_theme_support() {
 }
 add_action('after_setup_theme','penshop_add_theme_support');
 
-function twenty_twenty_one_scripts() {
-  wp_enqueue_style( 'twenty-twenty-one-style', 
-  get_template_directory_uri() . '/style.css', 
-  array(), wp_get_theme()->get( 'Version' ) );
-}
-
-add_action( 'wp_enqueue_scripts', 'twenty_twenty_one_scripts' );
-
 function add_welcome_note() {
     echo '<h1>Welcome to Penshop</h1>';   
 }
@@ -180,3 +172,36 @@ $plural = 'tags';
     'query_var' => true
   ));
 }
+
+/**
+ * Register widget area.
+ */
+function penshop_widgets_init() {
+
+  register_sidebar(
+    array(
+      'name' => 'Footer',
+      'id'   => 'penshop-sidebar-1',
+      'description'   => 'It is about Footer',
+			'before_widget' => '<section id="widget" class="widget">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+    )
+  );
+	
+}
+add_action( 'widgets_init', 'penshop_widgets_init' );
+
+function penshop_register_style_or_script() {
+  //Register the main style file here
+  wp_enqueue_style( 'penshop-one-style', 
+  get_template_directory_uri() . '/style.css', 
+  array(), wp_get_theme()->get( 'Version' ) );
+  //This is to register/include style in your theme
+  wp_enqueue_style('penshop-main-style',get_template_directory_uri().'/css/style.css',array(),false,'all');
+  //This is to register / include script in your theme
+  wp_enqueue_script('penshop-main-js',get_template_directory_uri().'/js/main.js',array(),false,true);
+
+}
+add_action('wp_enqueue_scripts','penshop_register_style_or_script');
